@@ -1,4 +1,4 @@
-/*const express = require('express');
+const express = require('express');
 const User = require('../DB/User');
 const route = express.Router();
 
@@ -12,16 +12,5 @@ route.post('/', async (req, res) => {
     await userModel.save();
     res.json(userModel);
 });
-*/
 
-
-// Show the list of users.
-/*route.post('/index', async (req, res) => {
-    User.find()
-        .then(res => {
-            res.json({res})
-        })
-        .catch(() =>{
-            res.json({message: 'An error Occurred!'})
-        })
-});*/
+module.exports = {route};
