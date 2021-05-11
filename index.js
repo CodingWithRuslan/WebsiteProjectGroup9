@@ -15,8 +15,15 @@ connectDB();
 app
     .use(morgan('dev'))
     .use(express.static('public'))
+    .use('/css', express.static(__dirname+'public/css'))
+    //.use('/js', express.static(__dirname+'public/js'))
+    //.use('/img', express.static(__dirname+'public/img'))
     .use(bodyParser.urlencoded({extended: false}))
     .use(bodyParser.json())
+
+    .get('',(req,res) => {
+        res.sendFile(__dirname + '/public/index.html')
+    })
 
     .listen(Port, () => console.log('Server listening'));
 
