@@ -13,4 +13,4 @@ route.post('/', async (req, res) => {
     res.json(userModel);
 });
 
-module.exports = {route};
+module.exports = route;
