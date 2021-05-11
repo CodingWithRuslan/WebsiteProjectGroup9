@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <div class="topnav">
+        <a class="active" href="home.html">Home</a>
+        <a href=../../../Desktop/untitled3/login.html>Login</a>
+        <a href=#Registration>Registration</a>
+        <a href=../../../Desktop/untitled3/Vacations.html>Vacations</a>
+    </div>
+        <title>Register Form</title>
+
+
+    <link href="main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form id="reg-form">
+    <table>
+        <tr>
+            <td>Username :</td>
+            <td><input type="text" autocomplete="off" id="username" placeholder="Username"/> </td>
+        </tr>
+        <tr>
+            <td>Password :</td>
+            <td><input type="password" id="password" placeholder="Password" /></td>
+        </tr>
+        <tr>
+            <td>Email :</td>
+            <td><input type="email" id="email" placeholder="Email"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    const form= document.getElementById('reg-form')
+    form.addEventListener('submit',registerUser)
+
+    async function registerUser(event){
+        event.preventDefault()
+        const username=document.getElementById('username').value
+        const password=document.getElementById('password').value
+        const email=document.getElementById('email').value
+
+        const result = await fetch('/api/register',{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                password,
+                email
+            })
+        }).then((res)=>res.json())
+        console.log(result)
+    }
+</script>
+</body>
+</html>

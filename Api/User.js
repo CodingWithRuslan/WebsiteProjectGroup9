@@ -1,13 +1,14 @@
 const express = require('express');
-const User = require('../DB/User');
+const User = require('../model/User');
 const route = express.Router();
 
 
 route.post('/', async (req, res) => {
-    const { firstName, lastName } = req.body;
+    const { username, password,email } = req.body;
     let user = {};
-    user.firstName = firstName;
-    user.lastName = lastName;
+    user.username = username;
+    user.password = password;
+    user.email=email;
     let userModel = new User(user);
     await userModel.save();
     res.json(userModel);

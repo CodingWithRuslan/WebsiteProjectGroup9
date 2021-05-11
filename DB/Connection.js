@@ -5,7 +5,8 @@ const URI = "mongodb+srv://adminDb:adminDb@cluster0.pxcwe.mongodb.net/myFirstDat
 const connectDB =() => {
     mongoose.connect(URI, {
         useUnifiedTopology: true,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true
     });
     console.log('db connected..!');
 };
