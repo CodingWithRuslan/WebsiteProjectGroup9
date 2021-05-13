@@ -19,7 +19,7 @@ const app = express();
 
 connectDB();
 
-app.use('/',express.static(path.join(__dirname,'public')));
+app.use('/',express.static(path.join(__dirname,'HTML')));
 app.get('/', function(req, res){
     res.sendFile('home.html',{root: path.join(__dirname, './HTML')})
 });
