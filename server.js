@@ -86,7 +86,7 @@ app.post('/api/register',async (req,res)=> {
     res.json({status: 'ok'})
 })
 
-const Port = process.env.Port || 3000;
+const Port = process.env.PORT || 3000;
 
 app.listen(Port, () => {
     console.log('Server started')
