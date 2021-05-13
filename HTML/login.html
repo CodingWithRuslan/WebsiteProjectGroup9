@@ -1,49 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Login Form</title>
     <div class="topnav">
         <a class="active" href="home.html">Home</a>
         <a href=login.html>Login</a>
         <a href=Registration.html>Registration</a>
         <a href=Vacations.html>Vacations</a>
     </div>
-        <title>Register Form</title>
-
-
     <link href="main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<form id="reg-form">
-    <table>
-        <tr>
-            <td>Username :</td>
-            <td><input type="text" autocomplete="off" id="username" placeholder="Username"/> </td>
-        </tr>
-        <tr>
-            <td>Password :</td>
-            <td><input type="password" id="password" placeholder="Password" /></td>
-        </tr>
-        <tr>
-            <td>Email :</td>
-            <td><input type="email" id="email" placeholder="Email"></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Submit"></td>
-        </tr>
-    </table>
-</form>
-
+<h2>Login Page</h2><br>
+<div class="login">
+    <form id="login" method="get" >
+        <label><b>User Name
+        </b>
+        </label>
+        <input type="text"  id="username" placeholder="Username">
+        <br><br>
+        <label><b>Password
+        </b>
+        </label>
+        <input type="password"  id="password" placeholder="Password">
+        <br><br>
+        <input type="submit"  id="submit" value="Log In Here">
+        <br><br>
+        <input type="checkbox" id="check">
+        <span>Remember me</span>
+    </form>
+</div>
 <script>
-    const form= document.getElementById('reg-form')
-    form.addEventListener('submit',registerUser)
+    const form= document.getElementById('login')
+    form.addEventListener('submit',loginUser)
 
-    async function registerUser(event){
+    async function loginUser(event){
         event.preventDefault()
         const username=document.getElementById('username').value
         const password=document.getElementById('password').value
-        const email=document.getElementById('email').value
 
-        const result = await fetch('/api/register',{
+        const result = await fetch('/api/login',{
             method: 'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -51,11 +47,12 @@
             body: JSON.stringify({
                 username,
                 password,
-                email
             })
         }).then((res)=>res.json())
         if(result.status==='ok'){
             // everything is fine
+            console.log('Got the token:',result.data)
+            alert('Success')
         }else{
             alert(result.error)
         }
