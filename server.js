@@ -6,7 +6,11 @@ const mongoose = require('mongoose');
 const User = require('./model/User');
 const bcrypt = require('bcryptjs')
 const jwt=require('jsonwebtoken')
-
+const passport = require('passport')
+const flash = require('express-flash')
+const cookieParser = require('cookie-parser');
+const session = require('express-session')
+const ejs= require('ejs')
 const JWT_SECRET= 'dsadsanbsd#@$@#$!!#$!fsdfhbj324vfxxcv'
 
 const app = express();
@@ -19,12 +23,36 @@ const app = express();
 
 connectDB();
 
-app.use('/',express.static(path.join(__dirname,'HTML')));
+app.use('/',express.static(path.join(__dirname,'views')));
 app.get('/', function(req, res){
-    res.sendFile('home.html',{root: path.join(__dirname, './HTML')})
+        res.render('home.ejs',{root: path.join(__dirname, './views')})
+});
+app.get('/login', function(req, res){
+    res.render('login.ejs',{root: path.join(__dirname, './views')})
+});
+app.get('/Registration', function(req, res){
+    res.render('Registration.ejs',{root: path.join(__dirname, './views')})
+});
+app.get('/Vacations', function(req, res){
+    res.render('Vacations.ejs',{root: path.join(__dirname, './views')})
+});
+app.get('/Detailsp', function(req, res){
+    res.render('Detailsp.ejs',{root: path.join(__dirname, './views')})
+});
+app.get('/Detailse', function(req, res){
+    res.render('Detailse.ejs',{root: path.join(__dirname, './views')})
 });
 app.use(express.json());
 app.use(bodyParser.json())
+app.use(cookieParser());
+app.use(
+    session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true,
+    })
+);
+
 app.post('/api/login',async (req,res)=>{
     const{username,password}=req.body
     const user=await User.findOne({username}).lean()
@@ -45,8 +73,50 @@ app.post('/api/login',async (req,res)=>{
         )
         return  res.json({status:'ok',data: token})
     }
+    /* tried to implement session
+    const jwtToken = await jwt.sign({ user: user }, process.env.SECRET_JWT_KEY);
+
+    if (jwtToken) {
+        const cookie = req.cookies.jwtToken;
+
+        if (!cookie) {
+            res.cookie('jwtToken', jwtToken, { maxAge: 360000000, httpOnly: true });
+        }
+        req.flash('success_msg', 'You are now logged in!');
+        return res.redirect('/');
+    }
+    */
 
     res.json({status:'error',error:'Invalid Username or Password'})
+})
+
+
+app.post('/api/change-password',async (req,res)=>{
+    const {token,newpassword: plainTextPassword}=req.body
+
+    if (!plainTextPassword || typeof plainTextPassword !== 'string'){
+        return res.json({status: 'error', error: 'Invalid password'})
+    }
+    if (plainTextPassword.length<7){
+        return res.json({
+            status: 'error',
+            error: 'Password too short, should be at least 8 characters'
+        })
+    }
+    try {
+        const user = jwt.verify(token, JWT_SECRET)
+        const _id = user.id
+        console.log('JWT decoded:',user)
+        const password = await bcrypt.hash(plainTextPassword,10)
+        await User.updateOne({_id}, {
+            $set: {password}
+        })
+
+        console.log(user)
+        res.json({status: 'ok'})
+    }catch (error){
+        res.json({status:'error',error: ';))'})
+    }
 })
 
 app.post('/api/register',async (req,res)=> {

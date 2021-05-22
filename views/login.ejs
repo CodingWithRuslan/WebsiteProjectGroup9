@@ -3,10 +3,10 @@
 <head>
     <title>Login Form</title>
     <div class="topnav">
-        <a class="active" href="home.html">Home</a>
-        <a href=login.html>Login</a>
-        <a href=Registration.html>Registration</a>
-        <a href=Vacations.html>Vacations</a>
+        <a class="active" href="/">Home</a>
+        <a href=/login>Login</a>
+        <a href=/Registration>Registration</a>
+        <a href=/Vacations>Vacations</a>
     </div>
     <link href="main.css" rel="stylesheet" type="text/css">
 </head>
@@ -52,6 +52,7 @@
         if(result.status==='ok'){
             // everything is fine
             console.log('Got the token:',result.data)
+            localStorage.setItem('token',result.data)
             alert('Success')
         }else{
             alert(result.error)
