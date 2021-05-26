@@ -1,0 +1,14 @@
+body{
+    background-image: url(p1.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+p{
+    font-family: Arial;
+    color :blue;
+}
+a{
+    font-family: Arial;
+    color: #777777;
+}

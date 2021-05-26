@@ -42,6 +42,9 @@ app.get('/Detailsp', function(req, res){
 app.get('/Detailse', function(req, res){
     res.render('Detailse.ejs',{root: path.join(__dirname, './views')})
 });
+app.get('/accountdetails', function(req, res){
+    res.render('accountdetails.ejs',{root: path.join(__dirname, './views')})
+});
 app.use(express.json());
 app.use(bodyParser.json())
 app.use(cookieParser());
@@ -55,6 +58,7 @@ app.use(
 
 app.post('/api/login',async (req,res)=>{
     const{username,password}=req.body
+    User.findOne({username})
     const user=await User.findOne({username}).lean()
 
     if(!user){
@@ -73,6 +77,7 @@ app.post('/api/login',async (req,res)=>{
         )
         return  res.json({status:'ok',data: token})
     }
+
     /* tried to implement session
     const jwtToken = await jwt.sign({ user: user }, process.env.SECRET_JWT_KEY);
 
